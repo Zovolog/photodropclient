@@ -6,7 +6,7 @@ export const Main: React.FC = () => {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<CodePage />} />
+        <Route path="/" element={<StartPage />} />
         <Route path="/verification-code" element={<StartPage />} />
       </Routes>
     </div>
