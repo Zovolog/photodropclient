@@ -9,22 +9,24 @@
   text-align: left;
 }
 .start-page-form-part {
-  padding: 10px;
+  padding: 15px;
   box-sizing: border-box;
 }
 .start-page-input-row {
+  font-family: FuturaNormal;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
 }
 .input-number {
   position: relative;
   border: none;
   outline: none;
   padding: 10px 10px 10px 0px;
-  background-color: #f4f4f4;
+  background: #f4f4f4;
   font-size: 1rem;
-  color: #979797;
+  color: #262626;
   border-radius: 10px;
 }
 .bt-choose-country {
@@ -32,15 +34,16 @@
   display: flex;
   align-items: center;
   height: 100%;
-  margin-bottom: 10px;
-  border: none;
   outline: none;
   border-radius: 10px;
-  margin-right: 20px;
-  padding: 14px;
+  border: 1px solid #eeeeee;
+  box-sizing: border-box;
+  padding: 9px;
 }
 .country-list-modal {
-  width: 60%;
+  width: 100%;
+  border: none;
+  outline: none;
   overflow: initial;
 }
 .alphabet-list {
@@ -67,10 +70,12 @@
 .input-block {
   background-color: #f4f4f4;
   display: flex;
-  
-  margin-bottom: 15px;
+  align-items: center;
   border-radius: 10px;
+  border: 1px solid #eeeeee;
+  box-sizing: border-box;
 }
 .start-code {
-  padding: 10px 5px 10px 10px;
+  padding: 15px 5px 14px 13px;
+  font-size: 16px;
 }

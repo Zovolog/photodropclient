@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import logo from "../../img/logo.jpg";
+import arrow from "../../img/arrow.png";
 import "./StartPage.css";
 import "./CountryPicker.css";
 import { countries } from "./countries";
@@ -34,22 +35,24 @@ export const StartPage: React.FC = () => {
         <div>
           <p className="text-l">Let`s get started</p>
           <div className="start-page-form-part">
-            <p className="text-m text-start-page">Enter your phone number</p>
+            <p
+              className="text-m text-start-page"
+              style={{ marginBottom: "20px" }}
+            >
+              Enter your phone number
+            </p>
             <div className="start-page-input-row">
               <button className="bt-choose-country" onClick={openModal}>
                 <img
                   src={require(`./flags/${
                     country?.code ? country?.code.toLowerCase() : "us"
-                  }.png`)}
-                  height="10px"
+                  }.svg`)}
+                  height="25px"
                 />
-                <img src={redo} height="10px" style={{ marginLeft: "5px" }} />
+                <img src={arrow} height="6.5px" style={{ marginLeft: "8px" }} />
               </button>
 
-              <div
-                style={{ width: "100%", position: "relative" }}
-                className="input-block"
-              >
+              <div className="input-block">
                 <span className="start-code">
                   {country?.dial_code ? country.dial_code : "+1"}
                 </span>
@@ -62,12 +65,12 @@ export const StartPage: React.FC = () => {
               </div>
             </div>
             <button className="bt-add">Create account</button>
-            <p className="text-s">
+            <p className="text-s" style={{ marginTop: "20px" }}>
               By proceeding, you consent to get WhatsApp or SMS messages, from
               PhotoDrop and its affiliates to the number provided. Text “STOP”
               to 89203 to opt out.{" "}
             </p>
-            <p className="text-s">
+            <p className="text-s" style={{ marginTop: "38px" }}>
               By continuing, you indicate that you have read and agree to our
               Terms of Use & Privacy Policy
             </p>
@@ -103,15 +106,13 @@ export const StartPage: React.FC = () => {
                 closeModal();
               }}
             >
-              <p>
-                <img
-                  src={require(`./flags/${country.code.toLowerCase()}.png`)}
-                  height="13px"
-                  style={{ marginRight: "15px" }}
-                  alt={country.name}
-                />
-                {country.name}
-              </p>
+              <img
+                src={require(`./flags/${country.code.toLowerCase()}.svg`)}
+                height="13px"
+                style={{ marginRight: "15px" }}
+                alt={country.name}
+              />
+              <p>{country.name}</p>
             </div>
           ))}
         </div>
