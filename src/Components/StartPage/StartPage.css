@@ -20,12 +20,11 @@
   margin-bottom: 20px;
 }
 .input-number {
-  position: relative;
   border: none;
   outline: none;
-  padding: 10px 10px 10px 0px;
+  padding: 15px 13px 14px 5px;
   background: #f4f4f4;
-  font-size: 1rem;
+  font-size: 16px;
   color: #262626;
   border-radius: 10px;
 }
@@ -39,6 +38,7 @@
   border: 1px solid #eeeeee;
   box-sizing: border-box;
   padding: 9px;
+  padding-right: 25px;
 }
 .country-list-modal {
   width: 100%;
@@ -68,12 +68,15 @@
   margin-bottom: 5px;
 }
 .input-block {
+  width: 100%;
   background-color: #f4f4f4;
   display: flex;
   align-items: center;
   border-radius: 10px;
   border: 1px solid #eeeeee;
   box-sizing: border-box;
+  margin-left: 10px;
+  font-family: FuturaNormal;
 }
 .start-code {
   padding: 15px 5px 14px 13px;

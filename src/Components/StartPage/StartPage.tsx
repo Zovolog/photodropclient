@@ -1,11 +1,11 @@
 import { useRef, useState } from "react";
 import logo from "../../img/logo.jpg";
 import arrow from "../../img/arrow.png";
+import usFlag from "../../img/us.png";
 import "./StartPage.css";
 import "./CountryPicker.css";
 import { countries } from "./countries";
 import { groupedCountries } from "./countries";
-import redo from "./arrow_down.svg";
 interface country {
   dial_code: string;
   code: string;
@@ -26,6 +26,45 @@ export const StartPage: React.FC = () => {
   const setList = (letter: string) => {
     getCountryList(groupedCountries[letter]);
   };
+  const handleInputChange = (e: any) => {
+    let value = e.target.value;
+
+    value = value.replace(/\D/g, "");
+    const dashIndex = value.indexOf("-");
+    const spaceIndex = value.indexOf(" ");
+    if (value.length >= 1) {
+      value = `(${value}`;
+    }
+    if (value.length >= 4) {
+      value = `${value.slice(0, 4)}) ${value.slice(4)}`;
+    }
+
+    if (value.length >= 9) {
+      value = `${value.slice(0, 9)}-${value.slice(9)}`;
+    }
+
+    if (value.length >= 14) {
+      value = `${value.slice(0, 14)}-${value.slice(14)}`;
+    }
+
+    if (value.length > 14) {
+      value = value.slice(0, 14);
+    }
+
+    if (
+      e.target.selectionStart <= dashIndex ||
+      e.target.selectionStart <= spaceIndex ||
+      value.charAt(e.target.selectionStart - 1) === "(" ||
+      value.charAt(e.target.selectionStart - 1) === ")" ||
+      value.charAt(e.target.selectionStart - 1) === "-" ||
+      value.charAt(e.target.selectionStart - 1) === " "
+    ) {
+      value = value.replace(/[-()\s]/g, "");
+
+      getNumber(value);
+    }
+    getNumber(value);
+  };
   return (
     <div>
       <header>
@@ -44,10 +83,14 @@ export const StartPage: React.FC = () => {
             <div className="start-page-input-row">
               <button className="bt-choose-country" onClick={openModal}>
                 <img
-                  src={require(`./flags/${
-                    country?.code ? country?.code.toLowerCase() : "us"
-                  }.svg`)}
+                  src={
+                    country?.code
+                      ? require(`./flags/${country?.code.toLowerCase()}.svg`)
+                      : usFlag
+                  }
                   height="25px"
+                  width="95%"
+                  style={{ background: "none" }}
                 />
                 <img src={arrow} height="6.5px" style={{ marginLeft: "8px" }} />
               </button>
@@ -57,10 +100,12 @@ export const StartPage: React.FC = () => {
                   {country?.dial_code ? country.dial_code : "+1"}
                 </span>
                 <input
-                  type="tel"
                   className="input-number"
-                  onChange={(e) => getNumber(e.currentTarget.value)}
+                  type="text"
                   value={number}
+                  onChange={handleInputChange}
+                  maxLength={17}
+                  pattern="\d*"
                 />
               </div>
             </div>
