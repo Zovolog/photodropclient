@@ -149,6 +149,7 @@ export const StartPage: React.FC = () => {
               onClick={() => {
                 getCountry(country);
                 closeModal();
+                getNumber("");
               }}
             >
               <img
