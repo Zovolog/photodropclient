@@ -6,6 +6,7 @@ import "./StartPage.css";
 import "./CountryPicker.css";
 import { countries } from "./countries";
 import { groupedCountries } from "./countries";
+import { useNavigate } from "react-router-dom";
 interface country {
   dial_code: string;
   code: string;
@@ -15,23 +16,24 @@ export const StartPage: React.FC = () => {
   const [countryList, getCountryList] = useState(countries);
   const [country, getCountry] = useState<country | null>(null);
   const modal = useRef<HTMLDialogElement>(null);
-
+  const navigate = useNavigate();
   const alphabet: string[] = Object.keys(groupedCountries).sort();
   const openModal = () => {
     modal.current?.showModal();
   };
+
   const closeModal = () => {
     modal.current?.close();
   };
+
   const setList = (letter: string) => {
     getCountryList(groupedCountries[letter]);
   };
+
   const handleInputChange = (e: any) => {
     let value = e.target.value;
 
     value = value.replace(/\D/g, "");
-    const dashIndex = value.indexOf("-");
-    const spaceIndex = value.indexOf(" ");
     if (value.length >= 1) {
       value = `(${value}`;
     }
@@ -51,19 +53,31 @@ export const StartPage: React.FC = () => {
       value = value.slice(0, 14);
     }
 
-    if (
-      e.target.selectionStart <= dashIndex ||
-      e.target.selectionStart <= spaceIndex ||
-      value.charAt(e.target.selectionStart - 1) === "(" ||
-      value.charAt(e.target.selectionStart - 1) === ")" ||
-      value.charAt(e.target.selectionStart - 1) === "-" ||
-      value.charAt(e.target.selectionStart - 1) === " "
-    ) {
-      value = value.replace(/[-()\s]/g, "");
+    const charAtIndex = value.charAt(e.target.selectionStart - 1);
 
-      getNumber(value);
+    switch (charAtIndex) {
+      case "(":
+      case ")":
+      case "-":
+      case " ":
+        value = value.replace(/[-()\s]/g, "");
+        break;
+      default:
+        break;
     }
     getNumber(value);
+  };
+
+  const passTheNumber = () => {
+    if (number.length > 10 && country) {
+      sessionStorage.setItem("countryCode", country?.dial_code);
+      sessionStorage.setItem("phoneNumber", number);
+      navigate("/verification-code");
+      console.log(1);
+    }
+    if (country) {
+      console.log(number.length);
+    }
   };
   return (
     <div>
@@ -72,10 +86,10 @@ export const StartPage: React.FC = () => {
       </header>
       <div className="start-page-main-content">
         <div>
-          <p className="text-l">Let`s get started</p>
+          <p className="text-xl">Let`s get started</p>
           <div className="start-page-form-part">
             <p
-              className="text-m text-start-page"
+              className="text-l text-start-page"
               style={{ marginBottom: "20px" }}
             >
               Enter your phone number
@@ -109,7 +123,9 @@ export const StartPage: React.FC = () => {
                 />
               </div>
             </div>
-            <button className="bt-add">Create account</button>
+            <button className="bt-add" onClick={passTheNumber}>
+              Create account
+            </button>
             <p className="text-s" style={{ marginTop: "20px" }}>
               By proceeding, you consent to get WhatsApp or SMS messages, from
               PhotoDrop and its affiliates to the number provided. Text “STOP”

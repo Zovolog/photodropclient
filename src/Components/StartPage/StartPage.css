@@ -22,11 +22,12 @@
 .input-number {
   border: none;
   outline: none;
-  padding: 15px 13px 14px 5px;
+  padding: 15px 13px 14px 4px;
   background: #f4f4f4;
   font-size: 16px;
   color: #262626;
   border-radius: 10px;
+  font-family: FuturaNormal;
 }
 .bt-choose-country {
   cursor: pointer;
@@ -79,6 +80,6 @@
   font-family: FuturaNormal;
 }
 .start-code {
-  padding: 15px 5px 14px 13px;
+  padding: 15px 0px 14px 13px;
   font-size: 16px;
 }

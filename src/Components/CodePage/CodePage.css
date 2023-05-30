@@ -1,8 +1,43 @@
 .code-main {
   width: 100%;
-  height: 90vh;
+  height: 70vh;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
+.codepage-form-block {
+  padding: 15px;
+}
+.input-code {
+  color: #262626;
+  font-size: 16px;
+  padding: 14px 0 15px 0;
+  text-align: center;
+  border: 1px solid #eeeeee;
+  background: #f4f4f4;
+  outline: none;
+  width: 45px;
+  margin-right: 15px;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+.input-code:last-child {
+  margin-right: 0;
+}
+.input-block-row {
+  display: flex;
+  margin-bottom: 20px;
+  margin-top: 19px;
+}
+.bt-resent-code {
+  border: none;
+  outline: none;
+  background: none;
+  font-family: FuturaLight;
+  color: #3300cc;
+  font-size: 16px;
+  padding-bottom: 19px;
+  cursor: pointer;
+}
+
