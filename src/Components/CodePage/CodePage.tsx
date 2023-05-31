@@ -12,26 +12,25 @@ export const CodePage: React.FC = () => {
   const phoneNumber = sessionStorage.getItem("phoneNumber");
   const countryCode = sessionStorage.getItem("countryCode");
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   axios({
-  //     url: `https://ph-client.onrender.com/sign-in/send-otp`,
-  //     method: "post",
-  //     data: {
-  //       phoneNumber: phoneNumber?.replace(/\D/g, ""),
-  //       countryCode: countryCode?.replace(/\D/g, ""),
-  //     },
-  //   })
-  //     .then(function (response) {
-  //       console.log(response);
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // }, []);
+  const getOtpCode = () => {
+    axios({
+      url: `https://ph-client.onrender.com/sign-in/send-otp`,
+      method: "post",
+      data: {
+        phoneNumber: phoneNumber?.replace(/\D/g, ""),
+        countryCode: countryCode?.replace(/\D/g, ""),
+      },
+    })
+      .then(function (response) {})
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
   const sentOtpCode = () => {
-    if (fields.length === 6) {
+    if (fields.join("").length === 6) {
       const otpCode = fields.join("");
+
       axios({
         url: `https://ph-client.onrender.com/sign-in/verify-otp`,
         method: "post",
@@ -42,14 +41,18 @@ export const CodePage: React.FC = () => {
         },
       })
         .then(function (response) {
-          console.log(response);
           setCookie("access_token", response.data.accessToken);
+          navigate(`/selfie-page/${response.data.user.clientId}`);
         })
         .catch(function (error) {
           console.log(error);
         });
     }
   };
+
+  useEffect(() => {
+    getOtpCode();
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -116,8 +119,13 @@ export const CodePage: React.FC = () => {
               />
             ))}
           </div>
-          <button className="bt-resent-code">Resent code</button>
-          <div className="bt-add" onClick={sentOtpCode}>
+          <button className="bt-resent-code" onClick={getOtpCode}>
+            Resent code
+          </button>
+          <div
+            className={fields.join("").length === 6 ? "bt-add" : "bt-add-off"}
+            onClick={sentOtpCode}
+          >
             Next
           </div>
         </div>

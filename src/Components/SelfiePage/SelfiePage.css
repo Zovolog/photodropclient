@@ -1,0 +1,51 @@
+.selfie-page-content {
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.text-selfie-page {
+  font-size: 18px;
+  color: #262626;
+  font-family: "FuturaLight";
+  text-align: center;
+  margin-top: 14px;
+  margin-bottom: 30px;
+}
+.avatar-block {
+  position: relative;
+  width: 181px;
+  height: 181px;
+}
+.add-avatar {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #3300cc;
+  border: none;
+  cursor: pointer;
+}
+.add-avatar:before,
+.add-avatar:after {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 1.5px;
+  background-color: #ffffff;
+}
+
+.add-avatar:before {
+  transform: rotate(90deg);
+}
+
+.add-avatar:after {
+  transform: rotate(0deg);
+}

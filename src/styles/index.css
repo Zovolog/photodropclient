@@ -77,7 +77,20 @@ header {
   cursor: pointer;
   text-align: center;
 }
-.bt-back{
+.bt-add-off {
+  width: 100%;
+  border: none;
+  outline: none;
+  color: #fff;
+  background: #bcabee;
+  cursor: not-allowed;
+  font-size: 1.1rem;
+  padding: 10px 0 10px 0;
+  border-radius: 50px;
+  font-family: FuturaNormal;
+  text-align: center;
+}
+.bt-back {
   background: none;
   cursor: pointer;
   border: none;

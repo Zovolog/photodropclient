@@ -73,10 +73,6 @@ export const StartPage: React.FC = () => {
       sessionStorage.setItem("countryCode", country?.dial_code);
       sessionStorage.setItem("phoneNumber", number);
       navigate("/verification-code");
-      console.log(1);
-    }
-    if (country) {
-      console.log(number.length);
     }
   };
   return (
