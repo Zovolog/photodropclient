@@ -22,7 +22,7 @@
 .input-number {
   border: none;
   outline: none;
-  padding: 15px 13px 14px 4px;
+  padding: 11px 0px 12px 5px;
   background: #f4f4f4;
   font-size: 16px;
   color: #262626;
@@ -70,7 +70,7 @@
 }
 .input-block {
   width: 100%;
-  background-color: #f4f4f4;
+  background: #f4f4f4;
   display: flex;
   align-items: center;
   border-radius: 10px;
@@ -80,6 +80,6 @@
   font-family: FuturaNormal;
 }
 .start-code {
-  padding: 15px 0px 14px 13px;
+  padding: 12px 0px 14px 11px;
   font-size: 16px;
 }

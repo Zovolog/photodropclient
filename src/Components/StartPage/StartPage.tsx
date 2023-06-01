@@ -7,6 +7,7 @@ import "./CountryPicker.css";
 import { countries } from "./countries";
 import { groupedCountries } from "./countries";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 interface country {
   dial_code: string;
   code: string;
@@ -15,6 +16,7 @@ export const StartPage: React.FC = () => {
   const [number, getNumber] = useState<string>("");
   const [countryList, getCountryList] = useState(countries);
   const [country, getCountry] = useState<country | null>(null);
+
   const modal = useRef<HTMLDialogElement>(null);
   const navigate = useNavigate();
   const alphabet: string[] = Object.keys(groupedCountries).sort();
@@ -72,6 +74,20 @@ export const StartPage: React.FC = () => {
     if (number.length > 10 && country) {
       sessionStorage.setItem("countryCode", country?.dial_code);
       sessionStorage.setItem("phoneNumber", number);
+      axios({
+        url: `https://ph-client.onrender.com/sign-in/send-otp`,
+        method: "post",
+        data: {
+          phoneNumber: number.replace(/\D/g, ""),
+          countryCode: country?.dial_code.replace(/\D/g, ""),
+        },
+      })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
       navigate("/verification-code");
     }
   };
@@ -99,8 +115,7 @@ export const StartPage: React.FC = () => {
                       : usFlag
                   }
                   height="25px"
-                  width="95%"
-                  style={{ background: "none" }}
+                  style={{ background: "none", maxWidth: "95%" }}
                 />
                 <img src={arrow} height="6.5px" style={{ marginLeft: "8px" }} />
               </button>

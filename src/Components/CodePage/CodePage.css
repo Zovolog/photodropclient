@@ -40,4 +40,6 @@
   padding-bottom: 19px;
   cursor: pointer;
 }
-
+.disabled {
+  color: #bcabee;
+}

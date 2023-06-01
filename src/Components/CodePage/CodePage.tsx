@@ -7,12 +7,13 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 export const CodePage: React.FC = () => {
   const [fields, setFields] = useState<string[]>(["", "", "", "", "", ""]);
+  const [disable, setDisabled] = useState(false);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [cookies, setCookie] = useCookies<string>(["access_token"]);
   const phoneNumber = sessionStorage.getItem("phoneNumber");
   const countryCode = sessionStorage.getItem("countryCode");
   const navigate = useNavigate();
-  const getOtpCode = () => {
+  const getOtpCode = (e: any) => {
     axios({
       url: `https://ph-client.onrender.com/sign-in/send-otp`,
       method: "post",
@@ -49,10 +50,6 @@ export const CodePage: React.FC = () => {
         });
     }
   };
-
-  useEffect(() => {
-    getOtpCode();
-  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -119,7 +116,15 @@ export const CodePage: React.FC = () => {
               />
             ))}
           </div>
-          <button className="bt-resent-code" onClick={getOtpCode}>
+          <button
+            className="bt-resent-code"
+            onClick={(e) => {
+              e.currentTarget.classList.add("disabled");
+              setDisabled(true);
+              getOtpCode(e);
+            }}
+            disabled={disable}
+          >
             Resent code
           </button>
           <div
