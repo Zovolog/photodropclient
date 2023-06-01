@@ -105,11 +105,16 @@ export const CodePage: React.FC = () => {
                   inputRefs.current[index] = ref;
                 }}
                 type="number"
-                maxLength={1}
+                max={9}
                 value={field}
                 onChange={(e) => {
-                  const value = e.target.value.replace(/\D/g, "");
-                  handleChange({ ...e, target: { ...e.target, value } }, index);
+                  const value = e.target.value;
+                  if (value.length <= 1) {
+                    handleChange(
+                      { ...e, target: { ...e.target, value } },
+                      index
+                    );
+                  }
                 }}
                 onKeyDown={(e) => handleBackspace(e, index)}
                 className="input-code"
