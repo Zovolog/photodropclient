@@ -104,7 +104,7 @@ export const CodePage: React.FC = () => {
                 ref={(ref) => {
                   inputRefs.current[index] = ref;
                 }}
-                type="text"
+                type="number"
                 maxLength={1}
                 value={field}
                 onChange={(e) => {
