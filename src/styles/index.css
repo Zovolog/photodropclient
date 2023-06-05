@@ -1,14 +1,17 @@
 @font-face {
   font-family: "Termina-Bold";
-  src: url("../Fonts/TerminaTest-Bold.woff2");
+  src: url("../Fonts/TerminaTest-Bold.woff2") format("woff2"),
+    url("../Fonts/TerminaTest-Bold.woff") format("woff");
 }
 @font-face {
   font-family: "FuturaNormal";
-  src: url("../Fonts/FuturaPTMedium.woff2");
+  src: url("../Fonts/FuturaPTMedium.woff2") format("woff2"),
+    url("../Fonts/FuturaPTMedium.woff") format("woff");
 }
 @font-face {
   font-family: "FuturaLight";
-  src: url("../Fonts/FuturaPTBook.woff2");
+  src: url("../Fonts/FuturaPTBook.woff2") format("woff2"),
+    url("../Fonts/FuturaPTBook.woff") format("woff");
 }
 body {
   margin: 0;

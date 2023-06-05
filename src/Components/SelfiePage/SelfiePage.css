@@ -41,11 +41,112 @@
   width: 1.5px;
   background-color: #ffffff;
 }
-
 .add-avatar:before {
   transform: rotate(90deg);
 }
-
 .add-avatar:after {
   transform: rotate(0deg);
+}
+.modal-add-photo {
+  background: #262626;
+  max-width: 100%;
+  height: 100vh;
+  width: 100%;
+  max-height: 100vh;
+  border: none;
+  padding: 0;
+}
+.selfie-photo {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  mask-image: "";
+  -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.bt-close-modal {
+  width: 15px;
+  height: 15px;
+  border: none;
+  background: none;
+  outline: none;
+  margin-left: 15px;
+  margin-bottom: 17px;
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  margin-bottom: 90px;
+  margin-top: 23px;
+}
+.bt-close-modal:before,
+.bt-close-modal:after {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 1.5px;
+  background-color: #ffffff;
+}
+.bt-close-modal:before {
+  transform: rotate(45deg);
+}
+.bt-close-modal:after {
+  transform: rotate(135deg);
+}
+.modal-header-text {
+  font-family: FuturaNormal;
+  color: #fff;
+  font-size: 18px;
+  text-align: center;
+  width: 100%;
+}
+.modal-header-normal-text {
+  font-size: 16px;
+  font-family: FuturaLight;
+  color: #fff;
+  text-align: center;
+}
+.bt-row {
+  position: absolute;
+  bottom: 40px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+}
+.bt-resend {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 170px;
+  font-size: 18px;
+  color: #fff;
+  border-radius: 50px;
+  border: none;
+  outline: none;
+  background-color: #000;
+  font-family: FuturaNormal;
+}
+.bt-send-photo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 170px;
+  font-size: 18px;
+  color: #000;
+  border-radius: 50px;
+  border: none;
+  outline: none;
+  background-color: #fff;
+  margin-left: 10px;
+  font-family: FuturaNormal;
 }
