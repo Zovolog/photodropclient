@@ -9,7 +9,9 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 export const SelfiePage: React.FC = () => {
   const [selectedPhoto, setSelectedPhoto] = useState<File | null>(null);
+  const [croppedIamge, setCroppedImage] = useState<string>("");
   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [area, setArea] = useState({ x: 0, y: 0, width: 0, height: 0 });
   const [zoom, setZoom] = useState(1);
   const [minZoom, setMinZoom] = useState(1);
   const navigate = useNavigate();
@@ -20,6 +22,12 @@ export const SelfiePage: React.FC = () => {
   const formData = new FormData();
   const [cookies, setCookie] = useCookies<string>(["access_token"]);
 
+  const onCropComplete = useCallback(
+    (croppedArea: any, croppedAreaPixels: any) => {
+      setArea(croppedAreaPixels);
+    },
+    []
+  );
   const openModal = () => {
     modal.current?.showModal();
   };
@@ -37,54 +45,43 @@ export const SelfiePage: React.FC = () => {
   };
   const handleCropImage = () => {
     if (selectedPhoto) {
-      const image = document.createElement("img");
+      const image = new Image();
+      image.onload = () => {
+        const cropCanvas = document.createElement("canvas");
+        cropCanvas.width = 280;
+        cropCanvas.height = 280;
+        const ctx = cropCanvas.getContext("2d");
+        ctx?.drawImage(
+          image,
+          area.x,
+          area.y,
+          area.width,
+          area.height,
+          0,
+          0,
+          280,
+          280
+        );
+        const croppedImageBlob = cropCanvas.toDataURL("image/jpeg");
+        setCroppedImage(croppedImageBlob);
+        const croppedImageFile = dataURLtoFile(croppedImageBlob, "cropped.jpg");
+        formData.append("files", croppedImageFile);
+        axios
+          .post(`https://ph-client.onrender.com/upload-selfie`, formData, {
+            headers: {
+              ["authorization"]: cookies.access_token,
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then(function (response) {
+            console.log(response);
+            navigate(`/main-page/${clientId}`);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      };
       image.src = URL.createObjectURL(selectedPhoto);
-
-      const cropCanvas = document.createElement("canvas");
-      cropCanvas.width = 280;
-      cropCanvas.height = 280;
-      const ctx = cropCanvas.getContext("2d");
-
-      const smallSide = Math.min(image.width, image.height);
-      const zoomedWidth = smallSide / zoom;
-      const zoomedHeight = smallSide / zoom;
-
-      const sourceX = (crop.x * (image.width - zoomedWidth)) / 100;
-      const sourceY = (crop.y * (image.height - zoomedHeight)) / 100;
-      const sourceWidth = zoomedWidth;
-      const sourceHeight = zoomedHeight;
-
-      ctx?.drawImage(
-        image,
-        sourceX,
-        sourceY,
-        sourceWidth,
-        sourceHeight,
-        0,
-        0,
-        280,
-        280
-      );
-      const croppedImageBlob = cropCanvas.toDataURL("image/jpeg");
-      const croppedImageFile = dataURLtoFile(croppedImageBlob, "cropped.jpg");
-      formData.append("files", croppedImageFile);
-
-      console.log(croppedImageFile);
-
-      axios
-        .post(`https://ph-client.onrender.com/upload-selfie`, formData, {
-          headers: {
-            ["authorization"]: cookies.access_token,
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then(function (response) {
-          console.log(response);
-          navigate(`/main-page/${clientId}`);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
     }
   };
   const dataURLtoFile = (dataURL: string, fileName: string): File => {
@@ -154,9 +151,11 @@ export const SelfiePage: React.FC = () => {
                 setMinZoom(285 / smallSide);
                 setZoom(285 / smallSide);
               }}
+              onCropComplete={onCropComplete}
             />
           </span>
         )}
+
         <div className="bt-row">
           <button
             className="bt-resend"
