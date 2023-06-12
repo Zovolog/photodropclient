@@ -139,7 +139,7 @@ export const SelfiePage: React.FC = () => {
               aspect={1}
               crop={crop}
               zoom={zoom}
-              minZoom={1}
+              minZoom={minZoom}
               cropShape="round"
               objectFit="vertical-cover"
               showGrid={false}
