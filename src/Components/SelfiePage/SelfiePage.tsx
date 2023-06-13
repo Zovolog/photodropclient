@@ -5,15 +5,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import avatar from "./avatar.png";
 import { useCallback, useRef, useState } from "react";
 import Cropper from "react-easy-crop";
+import { handleCrop } from "./canvasPaining";
+import { Area, Point } from "react-easy-crop";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 export const SelfiePage: React.FC = () => {
-  const [selectedPhoto, setSelectedPhoto] = useState<File | null>(null);
-  const [croppedIamge, setCroppedImage] = useState<string>("");
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [area, setArea] = useState({ x: 0, y: 0, width: 0, height: 0 });
-  const [zoom, setZoom] = useState(1);
-  const [minZoom, setMinZoom] = useState(1);
+  const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
+  const [crop, setCrop] = useState<Point>({ x: 0, y: 0 });
+  const [area, setArea] = useState<Area>({ x: 0, y: 0, width: 0, height: 0 });
+  const [zoom, setZoom] = useState<number>(1);
+  const [minZoom, setMinZoom] = useState<number>(1);
   const navigate = useNavigate();
   const modal = useRef<HTMLDialogElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -23,7 +24,7 @@ export const SelfiePage: React.FC = () => {
   const [cookies, setCookie] = useCookies<string>(["access_token"]);
 
   const onCropComplete = useCallback(
-    (croppedArea: any, croppedAreaPixels: any) => {
+    (_croppedArea: any, croppedAreaPixels: any) => {
       setArea(croppedAreaPixels);
     },
     []
@@ -36,65 +37,39 @@ export const SelfiePage: React.FC = () => {
   };
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    setSelectedPhoto(file || null);
+    setSelectedPhoto(URL.createObjectURL(file as File));
     openModal();
   };
   const handleModalInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    setSelectedPhoto(file || null);
+    setSelectedPhoto(URL.createObjectURL(file as File));
   };
-  const handleCropImage = () => {
-    if (selectedPhoto) {
-      const image = new Image();
-      image.onload = () => {
-        const cropCanvas = document.createElement("canvas");
-        cropCanvas.width = 280;
-        cropCanvas.height = 280;
-        const ctx = cropCanvas.getContext("2d");
-        ctx?.drawImage(
-          image,
-          area.x,
-          area.y,
-          area.width,
-          area.height,
-          0,
-          0,
-          280,
-          280
-        );
-        const croppedImageBlob = cropCanvas.toDataURL("image/jpeg");
-        setCroppedImage(croppedImageBlob);
-        const croppedImageFile = dataURLtoFile(croppedImageBlob, "cropped.jpg");
-        formData.append("files", croppedImageFile);
-        axios
-          .post(`https://ph-client.onrender.com/upload-selfie`, formData, {
-            headers: {
-              ["authorization"]: cookies.access_token,
-              "Content-Type": "multipart/form-data",
-            },
-          })
-          .then(function (response) {
-            console.log(response);
-            navigate(`/main-page/${clientId}`);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      };
-      image.src = URL.createObjectURL(selectedPhoto);
+  const handleCropImage = async () => {
+    if (selectedPhoto && area) {
+      const file = (await handleCrop(selectedPhoto, area)) as Blob;
+      console.log(URL.createObjectURL(file));
+
+      const formData = new FormData();
+      formData.append("Content-Type", "multipart/form-data");
+      formData.append("selfie", file, "selfie.jpeg");
+
+      await axios
+        .post(`https://ph-client.onrender.com/upload-selfie`, formData, {
+          headers: {
+            // ['authorization']: cookies.access_token,
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then(function (response) {
+          setCookie("access_token", response.data.accessToken);
+          navigate(`/main-page/${clientId}`);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
   };
-  const dataURLtoFile = (dataURL: string, fileName: string): File => {
-    const arr = dataURL.split(",");
-    const mime = arr[0].match(/:(.*?);/)?.[1];
-    const bstr = atob(arr[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], fileName, { type: mime });
-  };
+
   return (
     <div>
       <header>
@@ -117,13 +92,6 @@ export const SelfiePage: React.FC = () => {
             className="add-avatar"
             onClick={() => fileInputRef.current?.click()}
           ></button>
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleInputChange}
-            accept="image/*"
-            style={{ display: "none" }}
-          />
         </div>
       </div>
       <dialog className="modal-add-photo" ref={modal}>
@@ -135,7 +103,7 @@ export const SelfiePage: React.FC = () => {
         {selectedPhoto && (
           <span className="selfie-photo">
             <Cropper
-              image={URL.createObjectURL(selectedPhoto)}
+              image={selectedPhoto ? selectedPhoto : ""}
               aspect={1}
               crop={crop}
               zoom={zoom}
@@ -146,12 +114,13 @@ export const SelfiePage: React.FC = () => {
               onCropChange={setCrop}
               onZoomChange={setZoom}
               cropSize={{ width: 280, height: 280 }}
+              onCropComplete={onCropComplete}
               onMediaLoaded={({ height, width }) => {
                 const smallSide = height >= width ? width : height;
                 setMinZoom(285 / smallSide);
                 setZoom(285 / smallSide);
               }}
-              onCropComplete={onCropComplete}
+              zoomWithScroll={true}
             />
           </span>
         )}
@@ -175,6 +144,13 @@ export const SelfiePage: React.FC = () => {
           </button>
         </div>
       </dialog>
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleInputChange}
+        accept="image/*"
+        style={{ display: "none" }}
+      />
     </div>
   );
 };
