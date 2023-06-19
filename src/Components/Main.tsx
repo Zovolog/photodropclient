@@ -5,6 +5,7 @@ import { SelfiePage } from "./SelfiePage/SelfiePage";
 import { MainPage } from "./MainPage/MainPage";
 import { AlbumPage } from "./AlbumPage/AlbumPage";
 import { UserProfile } from "./UserProfile/UserProfile";
+import { ChangeNamePage } from "./ChangeNamePage/ChangeNamePage";
 
 export const Main: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ export const Main: React.FC = () => {
         <Route path="/main-page/:clientId" element={<MainPage />} />
         <Route path="/album-page/:albumId" element={<AlbumPage />} />
         <Route path="/user-profile" element={<UserProfile />} />
+        <Route path="/change-name" element={<ChangeNamePage />} />
       </Routes>
     </div>
   );
