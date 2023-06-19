@@ -42,6 +42,7 @@ export const CodePage: React.FC = () => {
         },
       })
         .then(function (response) {
+          console.log(response.data);
           setCookie("access_token", response.data.accessToken);
           navigate(`/selfie-page/${response.data.user.clientId}`);
         })

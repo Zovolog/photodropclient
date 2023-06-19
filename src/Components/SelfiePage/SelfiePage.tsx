@@ -20,7 +20,6 @@ export const SelfiePage: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const modalFileInputRef = useRef<HTMLInputElement>(null);
   const { clientId } = useParams();
-  const formData = new FormData();
   const [cookies, setCookie] = useCookies<string>(["access_token"]);
 
   const onCropComplete = useCallback(
@@ -50,18 +49,19 @@ export const SelfiePage: React.FC = () => {
       console.log(URL.createObjectURL(file));
 
       const formData = new FormData();
-      formData.append("Content-Type", "multipart/form-data");
-      formData.append("selfie", file, "selfie.jpeg");
 
-      await axios
+      formData.append("files", file, "selfie.jpeg");
+
+      axios
         .post(`https://ph-client.onrender.com/upload-selfie`, formData, {
           headers: {
-            // ['authorization']: cookies.access_token,
+            ["authorization"]: cookies.access_token,
             "Content-Type": "multipart/form-data",
           },
         })
         .then(function (response) {
-          setCookie("access_token", response.data.accessToken);
+          console.log(response);
+          setCookie("selfie_link", response.data.selfie.selfieThumbnail);
           navigate(`/main-page/${clientId}`);
         })
         .catch(function (error) {

@@ -3,6 +3,8 @@ import { StartPage } from "./StartPage/StartPage";
 import { CodePage } from "./CodePage/CodePage";
 import { SelfiePage } from "./SelfiePage/SelfiePage";
 import { MainPage } from "./MainPage/MainPage";
+import { AlbumPage } from "./AlbumPage/AlbumPage";
+import { UserProfile } from "./UserProfile/UserProfile";
 
 export const Main: React.FC = () => {
   return (
@@ -12,6 +14,8 @@ export const Main: React.FC = () => {
         <Route path="/verification-code" element={<CodePage />} />
         <Route path="/selfie-page/:clientId" element={<SelfiePage />} />
         <Route path="/main-page/:clientId" element={<MainPage />} />
+        <Route path="/album-page/:albumId" element={<AlbumPage />} />
+        <Route path="/user-profile" element={<UserProfile />} />
       </Routes>
     </div>
   );
