@@ -60,3 +60,52 @@ export const BtUnlock = styled.button`
   margin-bottom: 20px;
   cursor: pointer;
 `;
+
+export const Modal = styled.dialog`
+  height: 100vh;
+  background-color: #262626;
+  max-height: 100vh;
+  max-width: 100vw;
+  width: 100%;
+  overflow: hidden;
+  margin: 0 auto;
+`;
+
+export const BtCloseModal = styled.button`
+  width: 15px;
+  height: 15px;
+  border: none;
+  background: none;
+  outline: none;
+  margin-bottom: 17px;
+  cursor: pointer;
+  &::before {
+    content: "";
+    position: absolute;
+    height: 18px;
+    width: 1.5px;
+    background-color: #ffffff;
+    transform: rotate(45deg);
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    height: 18px;
+    width: 1.5px;
+    background-color: #ffffff;
+    transform: rotate(135deg);
+  }
+`;
+
+export const DownloadBt = styled.a`
+  position: absolute;
+  bottom: 50px;
+  left: 15px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  font-family: FuturaLight;
+  font-size: 14px;
+  color: white;
+`;

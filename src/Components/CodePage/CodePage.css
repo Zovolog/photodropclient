@@ -1,14 +1,3 @@
-.code-main {
-  width: 100%;
-  height: 70vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-.codepage-form-block {
-  padding: 15px;
-}
 .input-code {
   color: #262626;
   font-size: 16px;
@@ -25,20 +14,32 @@
 .input-code:last-child {
   margin-right: 0;
 }
-.input-block-row {
-  display: flex;
-  margin-bottom: 20px;
-  margin-top: 19px;
-}
-.bt-resent-code {
+
+.bt-add {
+  width: 100%;
   border: none;
   outline: none;
-  background: none;
-  font-family: FuturaLight;
-  color: #3300cc;
-  font-size: 16px;
-  padding-bottom: 19px;
+  color: #fff;
+  background-color: #3300cc;
+  font-size: 1.1rem;
+  padding: 10px 0 10px 0;
+  border-radius: 50px;
+  font-family: FuturaNormal;
   cursor: pointer;
+  text-align: center;
+}
+.bt-add-off {
+  width: 100%;
+  border: none;
+  outline: none;
+  color: #fff;
+  background: #bcabee;
+  cursor: not-allowed;
+  font-size: 1.1rem;
+  padding: 10px 0 10px 0;
+  border-radius: 50px;
+  font-family: FuturaNormal;
+  text-align: center;
 }
 .disabled {
   color: #bcabee;

@@ -3,14 +3,10 @@ import { Area } from "react-easy-crop";
 const createImage = async (url: string): Promise<any> => {
   return new Promise((resolve) => {
     const image = new Image();
+    image.src = url;
     image.addEventListener("load", () => resolve(image));
-    image.addEventListener("error", () => {
-      const errMsg = `Error loading image at ${url}`;
-      console.log(errMsg);
-    });
     image.crossOrigin = "anonymous";
     image.alt = "image";
-    image.src = url;
   });
 };
 

@@ -21,7 +21,7 @@ export const SelfiePage: React.FC = () => {
   const modalFileInputRef = useRef<HTMLInputElement>(null);
   const { clientId } = useParams();
   const [cookies, setCookie] = useCookies<string>(["access_token"]);
-
+  const selfie = cookies.selfie_link;
   const onCropComplete = useCallback(
     (_croppedArea: any, croppedAreaPixels: any) => {
       setArea(croppedAreaPixels);
@@ -46,10 +46,7 @@ export const SelfiePage: React.FC = () => {
   const handleCropImage = async () => {
     if (selectedPhoto && area) {
       const file = (await handleCrop(selectedPhoto, area)) as Blob;
-      console.log(URL.createObjectURL(file));
-
       const formData = new FormData();
-
       formData.append("files", file, "selfie.jpeg");
 
       axios
@@ -62,7 +59,7 @@ export const SelfiePage: React.FC = () => {
         .then(function (response) {
           console.log(response);
           setCookie("selfie_link", response.data.selfie.selfieThumbnail);
-          navigate(`/main-page/${clientId}`);
+          navigate(`/main-page`);
         })
         .catch(function (error) {
           console.log(error);
@@ -73,12 +70,6 @@ export const SelfiePage: React.FC = () => {
   return (
     <div>
       <header>
-        <button
-          className="bt-back"
-          onClick={(e) => navigate("/verification-code")}
-        >
-          <img src={arrow} style={{ marginLeft: "15px" }} height="16px" />
-        </button>
         <img src={logo} style={{ margin: "0 auto" }} />
       </header>
       <div className="selfie-page-content">
@@ -87,7 +78,12 @@ export const SelfiePage: React.FC = () => {
           A selfie allows your photos to be synced with your account.
         </p>
         <div className="avatar-block">
-          <img src={avatar} alt="avatar" height="181px" />
+          <img
+            src={selfie ? selfie : avatar}
+            alt="avatar"
+            height="181px"
+            style={{ borderRadius: "50%" }}
+          />
           <button
             className="add-avatar"
             onClick={() => fileInputRef.current?.click()}

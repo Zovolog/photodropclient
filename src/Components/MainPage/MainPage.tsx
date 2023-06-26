@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import logo from "../../img/logo.jpg";
 import {
   AlbumBlock,
-  BtUnlock,
   Header,
   ImageContainer,
   MainText,
@@ -37,7 +36,7 @@ export const MainPage: React.FC = () => {
 
     fetchData();
   }, []);
-  
+
   return (
     <div>
       <Header>
@@ -90,7 +89,6 @@ export const MainPage: React.FC = () => {
               ))
             )}
           </PhotoBlock>
-          <BtUnlock>Unlock your photos</BtUnlock>
           <Footer />
         </div>
       ) : (

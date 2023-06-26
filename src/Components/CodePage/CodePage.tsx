@@ -1,10 +1,15 @@
-import { useEffect, useRef, useState } from "react";
-import logo from "../../img/logo.jpg";
-import arrow from "../../img/arrow-left.png";
+import { useRef, useState } from "react";
 import "./CodePage.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useCookies } from "react-cookie";
+import {
+  BigText,
+  Header,
+  InputBlock,
+  ResendCodeBt,
+  Wrapper,
+} from "./CodePage.styles";
 export const CodePage: React.FC = () => {
   const [fields, setFields] = useState<string[]>(["", "", "", "", "", ""]);
   const [disable, setDisabled] = useState(false);
@@ -13,25 +18,24 @@ export const CodePage: React.FC = () => {
   const phoneNumber = sessionStorage.getItem("phoneNumber");
   const countryCode = sessionStorage.getItem("countryCode");
   const navigate = useNavigate();
-  const getOtpCode = (e: any) => {
-    axios({
-      url: `https://ph-client.onrender.com/sign-in/send-otp`,
-      method: "post",
-      data: {
+
+  const getOtpCode = async (e: any) => {
+    try {
+      const data = {
         phoneNumber: phoneNumber?.replace(/\D/g, ""),
         countryCode: countryCode?.replace(/\D/g, ""),
-      },
-    })
-      .then(function (response) {})
-      .catch(function (error) {
-        console.log(error);
-      });
+      };
+      const response = await axios.post(
+        `https://ph-client.onrender.com/sign-in/send-otp`,
+        data
+      );
+    } catch (error) {
+      console.error(error);
+    }
   };
-
   const sentOtpCode = () => {
     if (fields.join("").length === 6) {
       const otpCode = fields.join("");
-
       axios({
         url: `https://ph-client.onrender.com/sign-in/verify-otp`,
         method: "post",
@@ -44,7 +48,11 @@ export const CodePage: React.FC = () => {
         .then(function (response) {
           console.log(response.data);
           setCookie("access_token", response.data.accessToken);
-          navigate(`/selfie-page/${response.data.user.clientId}`);
+          setCookie("selfie_link", response.data.selfie.selfieThumbnail);
+          setCookie("user_name", response.data.user.fullName);
+          response.data.selfie
+            ? navigate(`/main-page`)
+            : navigate(`/selfie-page`);
         })
         .catch(function (error) {
           console.log(error);
@@ -82,23 +90,26 @@ export const CodePage: React.FC = () => {
   };
   return (
     <div>
-      <header>
-        <button className="bt-back" onClick={(e) => navigate("/")}>
-          <img src={arrow} style={{ marginLeft: "15px" }} height="16px" />
-        </button>
-        <img src={logo} style={{ margin: "0 auto" }} />
-      </header>
-      <div className="code-main">
-        <p className="text-xl">What`s the code?</p>
-        <div className="codepage-form-block">
+      <Header>
+        <Link to="/">
+          <img
+            src="/img/arrow-left.png"
+            style={{ marginLeft: "15px" }}
+            height="16px"
+          />
+        </Link>
+        <img src="/img/logo.jpg" style={{ margin: "0 auto" }} />
+      </Header>
+      <Wrapper>
+        <BigText>What`s the code?</BigText>
+        <div style={{ padding: "15px" }}>
           <p className="text-m">
             Enter the code sent to{" "}
             <span style={{ fontFamily: "FuturaNormal" }}>
               {countryCode + " " + phoneNumber}
             </span>
           </p>
-
-          <div className="input-block-row">
+          <InputBlock>
             {fields.map((field, index) => (
               <input
                 key={index}
@@ -121,9 +132,8 @@ export const CodePage: React.FC = () => {
                 className="input-code"
               />
             ))}
-          </div>
-          <button
-            className="bt-resent-code"
+          </InputBlock>
+          <ResendCodeBt
             onClick={(e) => {
               e.currentTarget.classList.add("disabled");
               setDisabled(true);
@@ -132,7 +142,7 @@ export const CodePage: React.FC = () => {
             disabled={disable}
           >
             Resent code
-          </button>
+          </ResendCodeBt>
           <div
             className={fields.join("").length === 6 ? "bt-add" : "bt-add-off"}
             onClick={sentOtpCode}
@@ -140,7 +150,7 @@ export const CodePage: React.FC = () => {
             Next
           </div>
         </div>
-      </div>
+      </Wrapper>
     </div>
   );
 };

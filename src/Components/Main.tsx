@@ -13,8 +13,8 @@ export const Main: React.FC = () => {
       <Routes>
         <Route path="/" element={<StartPage />} />
         <Route path="/verification-code" element={<CodePage />} />
-        <Route path="/selfie-page/:clientId" element={<SelfiePage />} />
-        <Route path="/main-page/:clientId" element={<MainPage />} />
+        <Route path="/selfie-page" element={<SelfiePage />} />
+        <Route path="/main-page" element={<MainPage />} />
         <Route path="/album-page/:albumId" element={<AlbumPage />} />
         <Route path="/user-profile" element={<UserProfile />} />
         <Route path="/change-name" element={<ChangeNamePage />} />

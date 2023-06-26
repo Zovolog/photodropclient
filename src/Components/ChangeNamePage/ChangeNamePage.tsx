@@ -16,6 +16,7 @@ export const ChangeNamePage: React.FC = () => {
   const [name, getName] = useState(cookies.user_name);
   const navigate = useNavigate();
   const sendName = async () => {
+    setCookie("user_name", name);
     try {
       const data = { fullName: name };
       const response = await axios.put(

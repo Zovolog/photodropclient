@@ -42,22 +42,5 @@ export const PhotoBlock = styled.div`
   flex-wrap: wrap;
   margin-top: 10px;
   justify-content: center;
-`;
-export const BtUnlock = styled.button`
-  display: flex;
-  justify-content: center;
-  width: 90%;
-  padding: 15px;
-  font-size: 18px;
-  text-align: center;
-  font-family: FuturaNormal;
-  color: #fff;
-  background: #3300cc;
-  border-radius: 50px;
-  border: none;
-  outline: none;
-  margin: 0 auto;
-  margin-top: 40px;
-  margin-bottom: 20px;
-  cursor: pointer;
+  margin-bottom: 50px;
 `;

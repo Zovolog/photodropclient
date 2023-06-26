@@ -1,7 +1,5 @@
 import { useRef, useState } from "react";
-import logo from "../../img/logo.jpg";
 import arrow from "../../img/arrow.png";
-import usFlag from "../../img/us.png";
 import "./StartPage.css";
 import "./CountryPicker.css";
 import { countries } from "./countries";
@@ -16,10 +14,10 @@ export const StartPage: React.FC = () => {
   const [number, getNumber] = useState<string>("");
   const [countryList, getCountryList] = useState(countries);
   const [country, getCountry] = useState<country | null>(null);
-
   const modal = useRef<HTMLDialogElement>(null);
   const navigate = useNavigate();
   const alphabet: string[] = Object.keys(groupedCountries).sort();
+
   const openModal = () => {
     modal.current?.showModal();
   };
@@ -33,30 +31,25 @@ export const StartPage: React.FC = () => {
   };
 
   const handleInputChange = (e: any) => {
-    let value = e.target.value;
+    let value = e.target.value.replace(/\D/g, "");
 
-    value = value.replace(/\D/g, "");
     if (value.length >= 1) {
       value = `(${value}`;
     }
     if (value.length >= 4) {
       value = `${value.slice(0, 4)}) ${value.slice(4)}`;
     }
-
     if (value.length >= 9) {
       value = `${value.slice(0, 9)}-${value.slice(9)}`;
     }
-
     if (value.length >= 14) {
       value = `${value.slice(0, 14)}-${value.slice(14)}`;
     }
-
     if (value.length > 14) {
       value = value.slice(0, 14);
     }
 
     const charAtIndex = value.charAt(e.target.selectionStart - 1);
-
     switch (charAtIndex) {
       case "(":
       case ")":
@@ -94,7 +87,7 @@ export const StartPage: React.FC = () => {
   return (
     <div>
       <header>
-        <img src={logo} />
+        <img src="/img/logo.jpg" alt="logo" />
       </header>
       <div className="start-page-main-content">
         <div>
@@ -111,8 +104,8 @@ export const StartPage: React.FC = () => {
                 <img
                   src={
                     country?.code
-                      ? require(`./flags/${country?.code.toLowerCase()}.svg`)
-                      : usFlag
+                      ? `/flags/${country?.code.toLowerCase()}.svg`
+                      : "/img/us.png"
                   }
                   height="25px"
                   style={{ background: "none", maxWidth: "95%" }}
@@ -180,7 +173,7 @@ export const StartPage: React.FC = () => {
               }}
             >
               <img
-                src={require(`./flags/${country.code.toLowerCase()}.svg`)}
+                src={`/flags/${country.code.toLowerCase()}.svg`}
                 height="13px"
                 style={{ marginRight: "15px" }}
                 alt={country.name}
