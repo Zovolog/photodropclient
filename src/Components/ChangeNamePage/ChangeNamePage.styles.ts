@@ -40,6 +40,10 @@ export const Input = styled.input`
   font-size: 16px;
   font-family: FuturaLight;
   width: 90%;
+  @media screen and (min-width: 1000px) {
+    width: 38%;
+  }
+  outline: none;
 `;
 export const ChangeBt = styled.button`
   display: flex;
@@ -57,4 +61,7 @@ export const ChangeBt = styled.button`
   margin: 0 auto;
   margin-top: 20px;
   cursor: pointer;
+  @media screen and (min-width: 1000px) {
+    width: 40%;
+  }
 `;

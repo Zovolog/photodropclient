@@ -6,6 +6,9 @@ export const TextXl = styled.p<{ align: string; margin: string }>`
   text-align: ${(props) => props.align};
   margin-bottom: 18px;
   margin-left: ${(props) => props.margin};
+  @media screen and (min-width: 1000px) {
+    margin-left: 50px;
+  }
 `;
 export const TextM = styled.p`
   font-size: 18px;
@@ -25,4 +28,8 @@ export const ImageRow = styled.div`
   margin: 0 10px 0 10px;
   display: flex;
   overflow-y: auto;
+  @media screen and (min-width: 1000px) {
+    padding: 0 50px 0 50px;
+    margin: 0;
+  }
 `;

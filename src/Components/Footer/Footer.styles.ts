@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 export const FooterWrapper = styled.div`
   background: #262626;
+  position: sticky;
+  bottom: 0;
 `;
 export const FooterContainer = styled.div`
   display: flex;
@@ -13,6 +15,7 @@ export const FooterContainer = styled.div`
     flex-direction: row;
     justify-content: space-between;
     margin: 0 auto;
+    padding: 60px 15px 0 15px;
   }
 `;
 

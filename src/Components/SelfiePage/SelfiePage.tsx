@@ -9,6 +9,17 @@ import { handleCrop } from "./canvasPaining";
 import { Area, Point } from "react-easy-crop";
 import axios from "axios";
 import { useCookies } from "react-cookie";
+import {
+  BtCloseModal,
+  ModalAddPhoto,
+  ModalBtRetakePhoto,
+  ModalBtSendPhoto,
+  ModalBtWrapper,
+  ModalHeadText,
+  ModalHeader,
+  ModalImageWrapper,
+  ModalNormalText,
+} from "./ModalSelfie.style";
 export const SelfiePage: React.FC = () => {
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 });
@@ -19,7 +30,6 @@ export const SelfiePage: React.FC = () => {
   const modal = useRef<HTMLDialogElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const modalFileInputRef = useRef<HTMLInputElement>(null);
-  const { clientId } = useParams();
   const [cookies, setCookie] = useCookies<string>(["access_token"]);
   const selfie = cookies.selfie_link;
   const onCropComplete = useCallback(
@@ -90,14 +100,14 @@ export const SelfiePage: React.FC = () => {
           ></button>
         </div>
       </div>
-      <dialog className="modal-add-photo" ref={modal}>
-        <div className="modal-header">
-          <button className="bt-close-modal" onClick={closeModal}></button>
-          <p className="modal-header-text">Take a selfie</p>
-        </div>
-        <p className="modal-header-normal-text">Drag and zoom image to crop</p>
+      <ModalAddPhoto ref={modal}>
+        <ModalHeader>
+          <BtCloseModal onClick={closeModal}></BtCloseModal>
+          <ModalHeadText>Take a selfie</ModalHeadText>
+        </ModalHeader>
+        <ModalNormalText>Drag and zoom image to crop</ModalNormalText>
         {selectedPhoto && (
-          <span className="selfie-photo">
+          <ModalImageWrapper>
             <Cropper
               image={selectedPhoto ? selectedPhoto : ""}
               aspect={1}
@@ -118,16 +128,15 @@ export const SelfiePage: React.FC = () => {
               }}
               zoomWithScroll={true}
             />
-          </span>
+          </ModalImageWrapper>
         )}
 
-        <div className="bt-row">
-          <button
-            className="bt-resend"
+        <ModalBtWrapper>
+          <ModalBtRetakePhoto
             onClick={() => modalFileInputRef.current?.click()}
           >
             Retake
-          </button>
+          </ModalBtRetakePhoto>
           <input
             type="file"
             ref={modalFileInputRef}
@@ -135,11 +144,9 @@ export const SelfiePage: React.FC = () => {
             accept="image/*"
             style={{ display: "none" }}
           />
-          <button className="bt-send-photo" onClick={handleCropImage}>
-            Save
-          </button>
-        </div>
-      </dialog>
+          <ModalBtSendPhoto onClick={handleCropImage}>Save</ModalBtSendPhoto>
+        </ModalBtWrapper>
+      </ModalAddPhoto>
       <input
         type="file"
         ref={fileInputRef}

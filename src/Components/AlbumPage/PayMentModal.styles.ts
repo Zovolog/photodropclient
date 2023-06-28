@@ -9,8 +9,7 @@ export const PayMentModal = styled.dialog`
   margin: 0;
   width: 100%;
   max-width: 100%;
-  padding: 0;
-  height: 30%;
+  max-height: 100%;
   @media screen and (min-width: 1000px) {
     top: 50%;
     left: 50%;
@@ -18,6 +17,7 @@ export const PayMentModal = styled.dialog`
     width: 30%;
     height: 25%;
   }
+  overflow: hidden;
 `;
 
 export const PayMentModalHeaderText = styled.span`

@@ -1,6 +1,6 @@
 import { Area } from "react-easy-crop";
 
-const createImage = async (url: string): Promise<any> => {
+const createImage = async (url: string): Promise<HTMLImageElement> => {
   return new Promise((resolve) => {
     const image = new Image();
     image.src = url;

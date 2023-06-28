@@ -5,8 +5,13 @@ export const Header = styled.div`
   align-items: center;
   width: 100%;
   border: 1px solid #f1f0ec;
+  justify-content: space-between;
   margin-top: 10px;
   box-sizing: border-box;
+  @media screen and (min-width: 1000px) {
+    margin: 0;
+  }
+  position: relative;
 `;
 export const TextBlock = styled.div`
   display: flex;
@@ -17,6 +22,11 @@ export const TextBlock = styled.div`
     align-items: center;
     justify-content: center;
   }
+`;
+
+export const HeaderFirstBlock = styled.div`
+  display: flex;
+  align-items: center;
 `;
 export const TextRow = styled.div`
   display: flex;
@@ -57,6 +67,15 @@ export const ImageRow = styled.div`
     padding: 0 50px 0 50px;
   }
 `;
+
+export const AlbumImage = styled.img`
+  cursor: pointer;
+  height: 125px;
+  @media screen and (min-width: 1000px) {
+    height: 400px;
+  }
+`;
+
 export const BtUnlock = styled.button`
   display: flex;
   justify-content: center;
@@ -74,8 +93,26 @@ export const BtUnlock = styled.button`
   margin-top: 40px;
   margin-bottom: 20px;
   cursor: pointer;
+  @media screen and (min-width: 1000px) {
+    display: none;
+  }
 `;
-
+export const BtUnlockDesktopButton = styled.button`
+  display: none;
+  color: #3300cc;
+  cursor: pointer;
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 20px;
+  margin-right: 50px;
+  font-family: FuturaNormal;
+  color: #3300cc;
+  cursor: pointer;
+  @media screen and (min-width: 1000px) {
+    display: block;
+  }
+`;
 export const Modal = styled.dialog`
   height: 100vh;
   background-color: #262626;

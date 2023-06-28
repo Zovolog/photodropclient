@@ -18,7 +18,7 @@ export const MainPage: React.FC = () => {
   const [cookies, setCookie] = useCookies<string>(["selfie_link"]);
   const [albums, setAlbums] = useState([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  
+
   useEffect(() => {
     setIsLoading(true);
     const fetchData = async () => {
@@ -59,7 +59,7 @@ export const MainPage: React.FC = () => {
       </Header>
       {isLoading ? (
         <Loader />
-      ) : albums.length > 0 ? (
+      ) : albums.length < 0 ? (
         <div>
           <MainText>Albums</MainText>
           <AlbumBlock>

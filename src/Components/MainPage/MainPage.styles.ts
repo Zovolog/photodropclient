@@ -42,6 +42,11 @@ export const TextInsideImage = styled.p`
   width: 100%;
   color: rgb(255, 255, 255);
   text-align: center;
+  @media screen and (min-width: 1000px) {
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, 300%);
+  }
 `;
 export const PhotoBlock = styled.div`
   display: flex;

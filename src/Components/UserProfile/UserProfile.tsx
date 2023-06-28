@@ -9,13 +9,24 @@ import {
   YourNameBlock,
   TextBlock,
   MText,
+  SelfieImage,
 } from "./UserProfile.style";
-import logo from "../../img/logo.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import { useCallback, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Cropper, { Point, Area } from "react-easy-crop";
 import { handleCrop } from "./canvasPaining";
+import {
+  BtCloseModal,
+  ModalAddPhoto,
+  ModalBtRetakePhoto,
+  ModalBtSendPhoto,
+  ModalBtWrapper,
+  ModalHeadText,
+  ModalHeader,
+  ModalImageWrapper,
+  ModalNormalText,
+} from "./ModalSelfie.style";
 export const UserProfile: React.FC = () => {
   const [cookies, setCookie] = useCookies<string>(["selfie_link"]);
   const navigate = useNavigate();
@@ -83,7 +94,7 @@ export const UserProfile: React.FC = () => {
             />
           </Link>
           <img
-            src={logo}
+            src={"/img/logo.jpg"}
             alt="logo"
             style={{
               position: "absolute",
@@ -97,13 +108,7 @@ export const UserProfile: React.FC = () => {
           <XlText>{user_name ? `Welcome, ${user_name}.` : "Welcome"}</XlText>
           <LText>Your selfie</LText>
           <ImageContainer>
-            <img
-              src={selfie}
-              alt="selfie"
-              width="100px"
-              height="100px"
-              style={{ borderRadius: "50%" }}
-            />
+            <SelfieImage src={selfie} alt="selfie" />
             <BtEdit
               onClick={() => {
                 openModal();
@@ -127,16 +132,14 @@ export const UserProfile: React.FC = () => {
           </YourNameBlock>
         </Container>
 
-        <dialog className="modal-add-photo" ref={modal}>
-          <div className="modal-header">
-            <button className="bt-close-modal" onClick={closeModal}></button>
-            <p className="modal-header-text">Take a selfie</p>
-          </div>
-          <p className="modal-header-normal-text">
-            Drag and zoom image to crop
-          </p>
+        <ModalAddPhoto ref={modal}>
+          <ModalHeader>
+            <BtCloseModal onClick={closeModal}></BtCloseModal>
+            <ModalHeadText>Take a selfie</ModalHeadText>
+          </ModalHeader>
+          <ModalNormalText>Drag and zoom image to crop</ModalNormalText>
           {selectedPhoto && (
-            <span className="selfie-photo">
+            <ModalImageWrapper>
               <Cropper
                 image={selectedPhoto ? selectedPhoto : ""}
                 aspect={1}
@@ -157,16 +160,14 @@ export const UserProfile: React.FC = () => {
                 }}
                 zoomWithScroll={true}
               />
-            </span>
+            </ModalImageWrapper>
           )}
-
-          <div className="bt-row">
-            <button
-              className="bt-resend"
+          <ModalBtWrapper>
+            <ModalBtRetakePhoto
               onClick={() => modalFileInputRef.current?.click()}
             >
               Retake
-            </button>
+            </ModalBtRetakePhoto>
             <input
               type="file"
               ref={modalFileInputRef}
@@ -174,11 +175,9 @@ export const UserProfile: React.FC = () => {
               accept="image/*"
               style={{ display: "none" }}
             />
-            <button className="bt-send-photo" onClick={handleCropImage}>
-              Save
-            </button>
-          </div>
-        </dialog>
+            <ModalBtSendPhoto onClick={handleCropImage}>Save</ModalBtSendPhoto>
+          </ModalBtWrapper>
+        </ModalAddPhoto>
       </div>
     </div>
   );

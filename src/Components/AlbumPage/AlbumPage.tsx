@@ -3,12 +3,15 @@ import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Loader } from "../Loader/Loader";
 import {
+  AlbumImage,
   BigText,
   BtCloseModal,
   BtUnlock,
+  BtUnlockDesktopButton,
   Dott,
   DownloadBt,
   Header,
+  HeaderFirstBlock,
   ImageRow,
   Modal,
   SmallText,
@@ -96,31 +99,39 @@ export const AlbumPage: React.FC = () => {
       ) : (
         <div>
           <Header>
-            <Link to="/main-page">
-              <img
-                src="/img/arrow-left.png"
-                height="15px"
-                style={{ marginLeft: "15px" }}
-              />
-            </Link>
-            <TextBlock>
-              <BigText>{album?.name}</BigText>
-              <TextRow>
-                <SmallText>{album?.createdAt}</SmallText>
-                <Dott />
-                <SmallText style={{ color: "#3300CC" }}>
-                  {album?.photos.length > 1
-                    ? `${album?.photos.length} photos`
-                    : "1 photo"}
-                </SmallText>
-              </TextRow>
-            </TextBlock>
+            <HeaderFirstBlock>
+              <Link to="/main-page">
+                <img
+                  src="/img/arrow-left.png"
+                  height="15px"
+                  style={{ marginLeft: "15px" }}
+                />
+              </Link>
+              <TextBlock>
+                <BigText>{album?.name}</BigText>
+                <TextRow>
+                  <SmallText>{album?.createdAt}</SmallText>
+                  <Dott />
+                  <SmallText style={{ color: "#3300CC" }}>
+                    {album?.photos.length > 1
+                      ? `${album?.photos.length} photos`
+                      : "1 photo"}
+                  </SmallText>
+                </TextRow>
+              </TextBlock>
+            </HeaderFirstBlock>
+            {locked ? (
+              <div></div>
+            ) : (
+              <BtUnlockDesktopButton onClick={openPayModal}>
+                Unlock your photos
+              </BtUnlockDesktopButton>
+            )}
           </Header>
           <ImageRow>
             {album?.photos.map((photo: any) => (
-              <img
+              <AlbumImage
                 src={photo.thumbnail}
-                height="125px"
                 tabIndex={1}
                 onClick={(e) => {
                   setChoosenPhoto(photo.thumbnail);
@@ -140,7 +151,7 @@ export const AlbumPage: React.FC = () => {
             <img
               src={choosenPhoto}
               alt="photo"
-              width="100%"
+              width="85%"
               style={{
                 position: "absolute",
                 top: "50%",
@@ -158,44 +169,40 @@ export const AlbumPage: React.FC = () => {
             )}
           </Modal>
           <PayMentModal ref={paymentModal}>
-            <div style={{ padding: "10px" }}>
-              <div style={{ display: "flex" }}>
-                <BtCloseModal onClick={closePayModal} color={"black"} />
-                <PayMentModalHeaderText>
-                  Unlock your photos
-                </PayMentModalHeaderText>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  marginTop: "20px",
-                }}
-              >
-                <NormalText>
-                  Get all photos from{" "}
-                  <span
-                    style={{ fontFamily: "FuturaNormal", fontWeight: "900" }}
-                  >
-                    {album?.name}
-                  </span>{" "}
-                  in hi-resolution with-no watermark
-                </NormalText>
-                <p style={{ fontFamily: "FuturaNormal" }}>
-                  {album?.photos.length}$
-                </p>
-              </div>
-              <PayBt
-                onClick={(e) => {
-                  //sendPayment();
-                  setCookie("unlocked_album_name", album?.name);
-                  setCookie("unlocked_album_cover", album?.photos[0].thumbnail);
-                  navigate("/successful-payment");
-                }}
-              >
-                Checkout
-              </PayBt>
+            <div style={{ display: "flex" }}>
+              <BtCloseModal onClick={closePayModal} color={"black"} />
+              <PayMentModalHeaderText>
+                Unlock your photos
+              </PayMentModalHeaderText>
             </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginTop: "20px",
+              }}
+            >
+              <NormalText>
+                Get all photos from{" "}
+                <span style={{ fontFamily: "FuturaNormal", fontWeight: "900" }}>
+                  {album?.name}
+                </span>{" "}
+                in hi-resolution with-no watermark
+              </NormalText>
+              <p style={{ fontFamily: "FuturaNormal" }}>
+                {album?.photos.length}$
+              </p>
+            </div>
+            <PayBt
+              onClick={(e) => {
+                //sendPayment();
+                setCookie("unlocked_album_name", album?.name);
+                setCookie("unlocked_album_cover", album?.photos[0].thumbnail);
+                navigate("/successful-payment");
+              }}
+            >
+              Checkout
+            </PayBt>
           </PayMentModal>
         </div>
       )}
