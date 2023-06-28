@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import logo from "../../img/logo.jpg";
 import {
   AlbumBlock,
   Header,
@@ -14,12 +13,12 @@ import { useCookies } from "react-cookie";
 import { MainPageNoAlbums } from "./MainPageNoAlbums/MainPageNoAlbums";
 import { Footer } from "../Footer/Footer";
 import { Loader } from "../Loader/Loader";
-
+import "./MainPage.css";
 export const MainPage: React.FC = () => {
   const [cookies, setCookie] = useCookies<string>(["selfie_link"]);
   const [albums, setAlbums] = useState([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
+  
   useEffect(() => {
     setIsLoading(true);
     const fetchData = async () => {
@@ -41,7 +40,7 @@ export const MainPage: React.FC = () => {
     <div>
       <Header>
         <img
-          src={logo}
+          src={"/img/logo.jpg"}
           alt="logo"
           style={{
             position: "absolute",
@@ -67,15 +66,7 @@ export const MainPage: React.FC = () => {
             {albums?.map((album: any) => (
               <Link to={`/album-page/${album.albumId}`}>
                 <ImageContainer>
-                  <img
-                    src={album.cover}
-                    height="140px"
-                    style={{
-                      borderRadius: "20px",
-                      marginRight: "5px",
-                      marginTop: "10px",
-                    }}
-                  />
+                  <img src={album.cover} className="album-avatar" />
                   <TextInsideImage>{album.name}</TextInsideImage>
                 </ImageContainer>
               </Link>
@@ -85,7 +76,7 @@ export const MainPage: React.FC = () => {
           <PhotoBlock>
             {albums?.map((album: any) =>
               album.photos.map((photo: any, i: number) => (
-                <img src={photo.thumbnail} height="125px" key={i} />
+                <img src={photo.thumbnail} key={i} className="all-photo" />
               ))
             )}
           </PhotoBlock>

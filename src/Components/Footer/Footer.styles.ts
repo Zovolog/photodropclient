@@ -8,6 +8,12 @@ export const FooterContainer = styled.div`
   flex-direction: column;
   background: #262626;
   padding: 60px 15px 40px 15px;
+  @media screen and (min-width: 1000px) {
+    width: 70%;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 auto;
+  }
 `;
 
 export const TextMain = styled.p`
@@ -36,4 +42,10 @@ export const FrameBt = styled.button`
   color: #fff;
   padding: 15px 0 15px 0;
   margin-bottom: 60px;
+  cursor: pointer;
+`;
+export const HalfBlock = styled.div`
+  @media screen and (min-width: 1000px) {
+    width: 40%;
+  }
 `;

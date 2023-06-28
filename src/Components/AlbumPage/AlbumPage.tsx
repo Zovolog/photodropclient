@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Loader } from "../Loader/Loader";
 import {
   BigText,
@@ -16,24 +16,47 @@ import {
   TextRow,
 } from "./AlbumPage.styles";
 import { Footer } from "../Footer/Footer";
+import {
+  NormalText,
+  PayBt,
+  PayMentModal,
+  PayMentModalHeaderText,
+} from "./PayMentModal.styles";
+import { useCookies } from "react-cookie";
 interface Album {
   name: string;
   photos: any;
   createdAt: string;
+  albumId: string;
 }
 export const AlbumPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [album, getAlbum] = useState<Album | null>(null);
   const [choosenPhoto, setChoosenPhoto] = useState("");
+  const [cookies, setCookie] = useCookies([
+    "unlocked_album_name",
+    "unlocked_album_cover",
+  ]);
   const [locked, getLockedInfo] = useState(null);
   const modal = useRef<HTMLDialogElement>(null);
+  const paymentModal = useRef<HTMLDialogElement>(null);
   const { albumId } = useParams();
+  const navigate = useNavigate();
+
   const openModal = () => {
     modal.current?.showModal();
     document.body.style.overflow = "hidden";
   };
   const closeModal = () => {
     modal.current?.close();
+    document.body.style.overflow = "auto";
+  };
+  const openPayModal = () => {
+    paymentModal.current?.showModal();
+    document.body.style.overflow = "hidden";
+  };
+  const closePayModal = () => {
+    paymentModal.current?.close();
     document.body.style.overflow = "auto";
   };
   useEffect(() => {
@@ -54,6 +77,18 @@ export const AlbumPage: React.FC = () => {
 
     fetchData();
   }, []);
+  const sendPayment = async () => {
+    try {
+      const response = await axios.post(
+        `https://ph-client.onrender.com/album/create-payment/${albumId}`
+      );
+      const url = response.data;
+      window.location.href = url;
+      console.log(url);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div>
       {isLoading ? (
@@ -94,10 +129,14 @@ export const AlbumPage: React.FC = () => {
               />
             ))}
           </ImageRow>
-          <BtUnlock>Unlock your photos</BtUnlock>
+          {locked ? (
+            <p></p>
+          ) : (
+            <BtUnlock onClick={openPayModal}>Unlock your photos</BtUnlock>
+          )}
           <Footer />
           <Modal ref={modal}>
-            <BtCloseModal onClick={closeModal} />
+            <BtCloseModal onClick={closeModal} color={"white"} />
             <img
               src={choosenPhoto}
               alt="photo"
@@ -115,9 +154,49 @@ export const AlbumPage: React.FC = () => {
                 <span style={{ marginTop: "10px" }}>Download</span>
               </DownloadBt>
             ) : (
-              <div>No!</div>
+              <div></div>
             )}
           </Modal>
+          <PayMentModal ref={paymentModal}>
+            <div style={{ padding: "10px" }}>
+              <div style={{ display: "flex" }}>
+                <BtCloseModal onClick={closePayModal} color={"black"} />
+                <PayMentModalHeaderText>
+                  Unlock your photos
+                </PayMentModalHeaderText>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginTop: "20px",
+                }}
+              >
+                <NormalText>
+                  Get all photos from{" "}
+                  <span
+                    style={{ fontFamily: "FuturaNormal", fontWeight: "900" }}
+                  >
+                    {album?.name}
+                  </span>{" "}
+                  in hi-resolution with-no watermark
+                </NormalText>
+                <p style={{ fontFamily: "FuturaNormal" }}>
+                  {album?.photos.length}$
+                </p>
+              </div>
+              <PayBt
+                onClick={(e) => {
+                  //sendPayment();
+                  setCookie("unlocked_album_name", album?.name);
+                  setCookie("unlocked_album_cover", album?.photos[0].thumbnail);
+                  navigate("/successful-payment");
+                }}
+              >
+                Checkout
+              </PayBt>
+            </div>
+          </PayMentModal>
         </div>
       )}
     </div>

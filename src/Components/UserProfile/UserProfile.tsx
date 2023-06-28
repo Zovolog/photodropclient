@@ -20,6 +20,7 @@ export const UserProfile: React.FC = () => {
   const [cookies, setCookie] = useCookies<string>(["selfie_link"]);
   const navigate = useNavigate();
   const [selectedPhoto, setSelectedPhoto] = useState<string | any>(null);
+  const [selfie, getSelfie] = useState("");
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 });
   const [area, setArea] = useState<Area>({ x: 0, y: 0, width: 0, height: 0 });
   const [zoom, setZoom] = useState<number>(1);
@@ -27,13 +28,16 @@ export const UserProfile: React.FC = () => {
   const modal = useRef<HTMLDialogElement>(null);
   const modalFileInputRef = useRef<HTMLInputElement>(null);
   const user_name = cookies.user_name;
-  const selfie = cookies.selfie_link;
+
   const onCropComplete = useCallback(
     (_croppedArea: any, croppedAreaPixels: any) => {
       setArea(croppedAreaPixels);
     },
     []
   );
+  useEffect(() => {
+    getSelfie(cookies["selfie_link"]);
+  }, [cookies]);
   const openModal = () => {
     modal.current?.showModal();
   };
@@ -53,7 +57,7 @@ export const UserProfile: React.FC = () => {
       axios
         .post(`https://ph-client.onrender.com/upload-selfie`, formData, {
           headers: {
-            "Content-Type": "multipart/form-data", // Пример заголовка
+            "Content-Type": "multipart/form-data",
           },
         })
         .then(function (response) {
@@ -71,7 +75,7 @@ export const UserProfile: React.FC = () => {
     <div>
       <div>
         <Header>
-          <Link to="/main-page/7e264b8e-5cc9-4ebe-b864-a4e848f6ed57">
+          <Link to="/main-page">
             <img
               src="/img/arrow-left.png"
               height="15px"
@@ -103,7 +107,7 @@ export const UserProfile: React.FC = () => {
             <BtEdit
               onClick={() => {
                 openModal();
-                setSelectedPhoto(selfie);
+                setSelectedPhoto(cookies["selfie_link"]);
               }}
             >
               <img src="/img/Vector.png" />

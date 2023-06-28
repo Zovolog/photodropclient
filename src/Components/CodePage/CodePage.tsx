@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import "./CodePage.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -10,6 +10,7 @@ import {
   ResendCodeBt,
   Wrapper,
 } from "./CodePage.styles";
+import { token } from "../../App";
 export const CodePage: React.FC = () => {
   const [fields, setFields] = useState<string[]>(["", "", "", "", "", ""]);
   const [disable, setDisabled] = useState(false);
@@ -17,6 +18,7 @@ export const CodePage: React.FC = () => {
   const [cookies, setCookie] = useCookies<string>(["access_token"]);
   const phoneNumber = sessionStorage.getItem("phoneNumber");
   const countryCode = sessionStorage.getItem("countryCode");
+  const { getIsAuthorized } = useContext(token);
   const navigate = useNavigate();
 
   const getOtpCode = async (e: any) => {
@@ -50,6 +52,8 @@ export const CodePage: React.FC = () => {
           setCookie("access_token", response.data.accessToken);
           setCookie("selfie_link", response.data.selfie.selfieThumbnail);
           setCookie("user_name", response.data.user.fullName);
+          getIsAuthorized(true);
+          sessionStorage.setItem("access_token_client_part", "true");
           response.data.selfie
             ? navigate(`/main-page`)
             : navigate(`/selfie-page`);

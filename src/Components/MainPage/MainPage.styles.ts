@@ -15,6 +15,9 @@ export const AlbumBlock = styled.div`
   display: flex;
   overflow-y: auto;
   padding: 0 0 40px 15px;
+  @media screen and (min-width: 1000px) {
+    padding: 0 0 40px 40px;
+  }
 `;
 export const MainText = styled.p`
   font-size: 14px;
@@ -22,6 +25,9 @@ export const MainText = styled.p`
   margin-top: 15px;
   margin-left: 15px;
   color: #262626;
+  @media screen and (min-width: 1000px) {
+    margin-left: 40px;
+  }
 `;
 export const ImageContainer = styled.div`
   position: relative;
@@ -41,6 +47,9 @@ export const PhotoBlock = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin-top: 10px;
-  justify-content: center;
+  margin-left: 20px;
   margin-bottom: 50px;
+  @media screen and (min-width: 1000px) {
+    margin-left: 40px;
+  }
 `;

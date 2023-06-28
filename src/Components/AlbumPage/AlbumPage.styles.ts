@@ -12,11 +12,20 @@ export const TextBlock = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 15px;
+  @media screen and (min-width: 1000px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 export const TextRow = styled.div`
   display: flex;
   align-items: center;
   padding-bottom: 10px;
+  @media screen and (min-width: 1000px) {
+    padding-bottom: 0px;
+    margin-left: 40px;
+  }
 `;
 export const BigText = styled.p`
   font-size: 18px;
@@ -24,6 +33,9 @@ export const BigText = styled.p`
   color: #262626;
   margin-bottom: 10px;
   padding-top: 10px;
+  @media screen and (min-width: 1000px) {
+    margin-left: 20px;
+  }
 `;
 export const SmallText = styled.p`
   font-size: 14px;
@@ -41,6 +53,9 @@ export const ImageRow = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 40px;
+  @media screen and (min-width: 1000px) {
+    padding: 0 50px 0 50px;
+  }
 `;
 export const BtUnlock = styled.button`
   display: flex;
@@ -69,6 +84,8 @@ export const Modal = styled.dialog`
   width: 100%;
   overflow: hidden;
   margin: 0 auto;
+  border: none;
+  padding: 0;
 `;
 
 export const BtCloseModal = styled.button`
@@ -77,14 +94,14 @@ export const BtCloseModal = styled.button`
   border: none;
   background: none;
   outline: none;
-  margin-bottom: 17px;
+  margin-left: 15px;
   cursor: pointer;
   &::before {
     content: "";
     position: absolute;
     height: 18px;
     width: 1.5px;
-    background-color: #ffffff;
+    background-color: ${(props) => props.color};
     transform: rotate(45deg);
   }
   &::after {
@@ -92,7 +109,7 @@ export const BtCloseModal = styled.button`
     position: absolute;
     height: 18px;
     width: 1.5px;
-    background-color: #ffffff;
+    background-color: ${(props) => props.color};
     transform: rotate(135deg);
   }
 `;

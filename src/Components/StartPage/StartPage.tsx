@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import arrow from "../../img/arrow.png";
 import "./StartPage.css";
 import "./CountryPicker.css";
@@ -6,6 +6,7 @@ import { countries } from "./countries";
 import { groupedCountries } from "./countries";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { token } from "../../App";
 interface country {
   dial_code: string;
   code: string;
@@ -14,9 +15,14 @@ export const StartPage: React.FC = () => {
   const [number, getNumber] = useState<string>("");
   const [countryList, getCountryList] = useState(countries);
   const [country, getCountry] = useState<country | null>(null);
+  const { getIsAuthorized } = useContext(token);
   const modal = useRef<HTMLDialogElement>(null);
   const navigate = useNavigate();
   const alphabet: string[] = Object.keys(groupedCountries).sort();
+  useEffect(() => {
+    getIsAuthorized(false);
+    sessionStorage.clear();
+  }, []);
 
   const openModal = () => {
     modal.current?.showModal();
@@ -75,9 +81,7 @@ export const StartPage: React.FC = () => {
           countryCode: country?.dial_code.replace(/\D/g, ""),
         },
       })
-        .then(function (response) {
-          console.log(response);
-        })
+        .then(function (response) {})
         .catch(function (error) {
           console.log(error);
         });

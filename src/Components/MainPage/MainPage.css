@@ -1,0 +1,16 @@
+.album-avatar {
+  border-radius: 20px;
+  margin: 10px 5px 0 0;
+  height: 140px;
+}
+.all-photo {
+  height: 125px;
+}
+@media screen and (min-width: 1000px) {
+  .album-avatar {
+    height: 250px;
+  }
+  .all-photo {
+    height: 300px;
+  }
+}
