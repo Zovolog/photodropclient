@@ -10,7 +10,7 @@ export const ModalAddPhoto = styled.dialog`
   padding: 0;
   @media screen and (min-width: 1000px) {
     max-width: 100%;
-    height: 70vh;
+    height: 80vh;
     width: 30%;
     max-height: 100vh;
     border-radius: 15px;
@@ -64,6 +64,12 @@ export const ModalNormalText = styled.p`
   font-family: FuturaLight;
   color: #fff;
   text-align: center;
+  @media screen and (min-width: 1000px) {
+    position: absolute;
+    top: 17%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 `;
 
 export const ModalImageWrapper = styled.div`

@@ -8,9 +8,10 @@ import {
   UsualText,
 } from "./SuccessfulPaymentPage.styles";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Loader } from "../Loader/Loader";
+import { token } from "../../App";
 interface Album {
   name: string;
   cover: string;
@@ -20,6 +21,7 @@ export const SuccessfulPaymentPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [album, getAlbum] = useState<Album | null>(null);
   const albumId = cookies["unlocked_album_id"];
+  const selfie = cookies["selfie_link"];
   const navigate = useNavigate();
   useEffect(() => {
     setIsLoading(true);
@@ -51,9 +53,10 @@ export const SuccessfulPaymentPage: React.FC = () => {
             transform: "translate(-50%, -50%)",
           }}
         />
+
         <Link to="/user-profile">
           <img
-            src={cookies.selfie_link}
+            src={selfie}
             height="30px"
             style={{ borderRadius: "50%", marginRight: "10px" }}
           />

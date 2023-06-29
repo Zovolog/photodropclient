@@ -1,4 +1,6 @@
-
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import { token } from "../../App";
 import {
   HeadText,
   Header,
@@ -6,8 +8,12 @@ import {
   NormalText,
   Wrapper,
 } from "./TermsOfUse.style";
+import { useCookies } from "react-cookie";
 
 export const TermsOfUse: React.FC = () => {
+  const { isAuthorized, getIsAuthorized } = useContext(token);
+  const [cookies, setCookie] = useCookies(["selfie_link"]);
+  const selfie = cookies["selfie_link"];
   return (
     <div>
       <Header>
@@ -21,13 +27,17 @@ export const TermsOfUse: React.FC = () => {
             transform: "translate(-50%, -50%)",
           }}
         />
-        {/* <Link to="/user-profile">
-          <img
-            src={cookies.selfie_link}
-            height="30px"
-            style={{ borderRadius: "50%", marginRight: "10px" }}
-          />
-        </Link> */}
+        {isAuthorized ? (
+          <Link to="/user-profile">
+            <img
+              src={selfie}
+              height="30px"
+              style={{ borderRadius: "50%", marginRight: "10px" }}
+            />
+          </Link>
+        ) : (
+          <div></div>
+        )}
       </Header>
       <Wrapper>
         <HeaderText>Terms of use</HeaderText>

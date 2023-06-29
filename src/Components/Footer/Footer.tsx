@@ -41,10 +41,22 @@ export const Footer: React.FC = () => {
               style={{ margin: "10px 0 30px 0" }}
             />
             <TextSmall>
-              <Link to="#">Terms</Link>
+              <Link
+                to="/terms-of-use"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Terms
+              </Link>
             </TextSmall>
             <TextSmall>
-              <Link to="#">Privacy Policy</Link>
+              <Link
+                to="/privacy-policy"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Privacy Policy
+              </Link>
             </TextSmall>
             <TextSmall>© 2022 FOM Online Inc</TextSmall>
           </HalfBlock>

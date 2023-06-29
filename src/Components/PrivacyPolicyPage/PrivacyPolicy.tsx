@@ -1,3 +1,6 @@
+import { useContext } from "react";
+import { useCookies } from "react-cookie";
+import { token } from "../../App";
 import {
   Header,
   Wrapper,
@@ -5,8 +8,12 @@ import {
   HeadText,
   NormalText,
 } from "./PrivacyPolicy.style";
+import { Link } from "react-router-dom";
 
 export const PrivacyPolicy: React.FC = () => {
+  const { isAuthorized, getIsAuthorized } = useContext(token);
+  const [cookies, setCookie] = useCookies(["selfie_link"]);
+  const selfie = cookies["selfie_link"];
   return (
     <div>
       <Header>
@@ -20,13 +27,17 @@ export const PrivacyPolicy: React.FC = () => {
             transform: "translate(-50%, -50%)",
           }}
         />
-        {/* <Link to="/user-profile">
-      <img
-        src={cookies.selfie_link}
-        height="30px"
-        style={{ borderRadius: "50%", marginRight: "10px" }}
-      />
-    </Link> */}
+        {isAuthorized ? (
+          <Link to="/user-profile">
+            <img
+              src={cookies.selfie_link}
+              height="30px"
+              style={{ borderRadius: "50%", marginRight: "10px" }}
+            />
+          </Link>
+        ) : (
+          <div></div>
+        )}
       </Header>
       <Wrapper>
         <HeaderText>Privacy policy</HeaderText>
