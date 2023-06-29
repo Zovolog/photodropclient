@@ -141,7 +141,8 @@ export const StartPage: React.FC = () => {
             </p>
             <p className="text-s" style={{ marginTop: "38px" }}>
               By continuing, you indicate that you have read and agree to our
-              Terms of Use & Privacy Policy
+              <a href="/terms-of-use">Terms of Use</a> &{" "}
+              <a href="/privacy-policy">Privacy Policy</a>
             </p>
           </div>
         </div>

@@ -8,6 +8,7 @@ import {
   BtCloseModal,
   BtUnlock,
   BtUnlockDesktopButton,
+  ChoosenPhoto,
   Dott,
   DownloadBt,
   Header,
@@ -36,10 +37,7 @@ export const AlbumPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [album, getAlbum] = useState<Album | null>(null);
   const [choosenPhoto, setChoosenPhoto] = useState("");
-  const [cookies, setCookie] = useCookies([
-    "unlocked_album_name",
-    "unlocked_album_cover",
-  ]);
+  const [cookies, setCookie] = useCookies(["unlocked_album_id"]);
   const [locked, getLockedInfo] = useState(null);
   const modal = useRef<HTMLDialogElement>(null);
   const paymentModal = useRef<HTMLDialogElement>(null);
@@ -148,17 +146,7 @@ export const AlbumPage: React.FC = () => {
           <Footer />
           <Modal ref={modal}>
             <BtCloseModal onClick={closeModal} color={"white"} />
-            <img
-              src={choosenPhoto}
-              alt="photo"
-              width="85%"
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-              }}
-            />
+            <ChoosenPhoto src={choosenPhoto} alt="photo" />
             {locked ? (
               <DownloadBt href={choosenPhoto} download={choosenPhoto}>
                 <img src="/img/downloadicon.png" height="21px" width="24px" />
@@ -196,8 +184,7 @@ export const AlbumPage: React.FC = () => {
             <PayBt
               onClick={(e) => {
                 //sendPayment();
-                setCookie("unlocked_album_name", album?.name);
-                setCookie("unlocked_album_cover", album?.photos[0].thumbnail);
+                setCookie("unlocked_album_id", albumId);
                 navigate("/successful-payment");
               }}
             >

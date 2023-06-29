@@ -9,6 +9,8 @@ import { ChangeNamePage } from "./ChangeNamePage/ChangeNamePage";
 import { useContext } from "react";
 import { token } from "../App";
 import { SuccessfulPaymentPage } from "./SuccessfulPaymentPage/SuccessfulPaymentPage";
+import { TermsOfUse } from "./TermsOfUsePage/TermsOfUse";
+import { PrivacyPolicy } from "./PrivacyPolicyPage/PrivacyPolicy";
 
 export const Main: React.FC = () => {
   const { isAuthorized, getIsAuthorized } = useContext(token);
@@ -41,6 +43,8 @@ export const Main: React.FC = () => {
       <Route path="/user-profile" element={<UserProfile />} />
       <Route path="/change-name" element={<ChangeNamePage />} />
       <Route path="/successful-payment" element={<SuccessfulPaymentPage />} />
+      <Route path="/terms-of-use" element={<TermsOfUse />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
     </Routes>
   );
 };

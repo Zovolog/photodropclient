@@ -9,6 +9,7 @@ export const Header = styled.div`
   margin-top: 10px;
   box-sizing: border-box;
   @media screen and (min-width: 1000px) {
+    padding: 20px 0 20px 0;
     margin: 0;
   }
   position: relative;
@@ -148,6 +149,19 @@ export const BtCloseModal = styled.button`
     width: 1.5px;
     background-color: ${(props) => props.color};
     transform: rotate(135deg);
+  }
+`;
+
+export const ChoosenPhoto = styled.img`
+  width: 85%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  max-height: 100%;
+  transform: translate(-50%, -50%);
+  @media screen and (min-width: 1000px) {
+    height: auto;
+    width: 50%;
   }
 `;
 

@@ -1,18 +1,43 @@
 import { useCookies } from "react-cookie";
 import {
   BigText,
+  BtSeePhotos,
   Container,
   Header,
+  MainImage,
   UsualText,
 } from "./SuccessfulPaymentPage.styles";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Loader } from "../Loader/Loader";
+interface Album {
+  name: string;
+  cover: string;
+}
 export const SuccessfulPaymentPage: React.FC = () => {
-  const [cookies, setCookie] = useCookies([
-    "unlocked_album_name",
-    "selfie_link",
-    "unlocked_album_cover",
-  ]);
+  const [cookies, setCookie] = useCookies(["unlocked_album_id", "selfie_link"]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [album, getAlbum] = useState<Album | null>(null);
+  const albumId = cookies["unlocked_album_id"];
+  const navigate = useNavigate();
+  useEffect(() => {
+    setIsLoading(true);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `https://ph-client.onrender.com/album/${albumId}`
+        );
+        console.log(response.data);
+        setIsLoading(false);
+        getAlbum(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <div>
       <Header>
@@ -34,22 +59,27 @@ export const SuccessfulPaymentPage: React.FC = () => {
           />
         </Link>
       </Header>
-      <Container>
-        <BigText>Thank you!</BigText>
-        <UsualText>
-          The album
-          <span style={{ fontWeight: "700" }}>
-            {cookies.unlocked_album_name}
-          </span>{" "}
-          is now unlocked.
-        </UsualText>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <Container>
+          <BigText>Thank you!</BigText>
+          <UsualText>
+            The album
+            <span style={{ fontWeight: "700" }}> {album?.name}</span> is now
+            unlocked.
+          </UsualText>
 
-        <UsualText>
-          You can now download, share, post, and print your hi-res,
-          watermark-free, glorious memories.
-        </UsualText>
-        <img src={cookies.unlocked_album_cover} alt="image" />
-      </Container>
+          <UsualText>
+            You can now download, share, post, and print your hi-res,
+            watermark-free, glorious memories.
+          </UsualText>
+          <MainImage alt="image" src={album?.cover} />
+          <BtSeePhotos onClick={(e) => navigate(`/album-page/${albumId}`)}>
+            See photos
+          </BtSeePhotos>
+        </Container>
+      )}
     </div>
   );
 };

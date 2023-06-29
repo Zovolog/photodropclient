@@ -59,7 +59,7 @@ export const MainPage: React.FC = () => {
       </Header>
       {isLoading ? (
         <Loader />
-      ) : albums.length < 0 ? (
+      ) : albums.length > 0 ? (
         <div>
           <MainText>Albums</MainText>
           <AlbumBlock>
