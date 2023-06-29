@@ -28,7 +28,7 @@ import {
   ModalNormalText,
 } from "./ModalSelfie.style";
 export const UserProfile: React.FC = () => {
-  const [cookies, setCookie] = useCookies<string>(["selfie_link"]);
+  const [cookies, setCookie] = useCookies<string>(["selfie_link", "user_name"]);
   const navigate = useNavigate();
   const [selectedPhoto, setSelectedPhoto] = useState<string | any>(null);
   const [selfie, getSelfie] = useState("");
@@ -105,7 +105,7 @@ export const UserProfile: React.FC = () => {
           />
         </Header>
         <Container>
-          <XlText>{user_name ? `Welcome, ${user_name}.` : "Welcome"}</XlText>
+          <XlText>{user_name ? `Welcome, ${user_name}.` : "Welcome."}</XlText>
           <LText>Your selfie</LText>
           <ImageContainer>
             <SelfieImage src={selfie} alt="selfie" />
