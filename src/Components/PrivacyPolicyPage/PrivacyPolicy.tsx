@@ -14,6 +14,7 @@ export const PrivacyPolicy: React.FC = () => {
   const { isAuthorized, getIsAuthorized } = useContext(token);
   const [cookies, setCookie] = useCookies(["selfie_link"]);
   const selfie = cookies["selfie_link"];
+
   return (
     <div>
       <Header>

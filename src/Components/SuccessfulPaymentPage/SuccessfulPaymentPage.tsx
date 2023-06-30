@@ -24,6 +24,7 @@ export const SuccessfulPaymentPage: React.FC = () => {
   const selfie = cookies["selfie_link"];
   const navigate = useNavigate();
   useEffect(() => {
+    const albumId = cookies["unlocked_album_id"];
     setIsLoading(true);
     const fetchData = async () => {
       try {

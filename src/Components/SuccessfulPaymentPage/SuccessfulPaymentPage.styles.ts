@@ -23,7 +23,7 @@ export const Container = styled.div`
 `;
 export const MainImage = styled.img`
   border-radius: 15px;
-  width: 90%;
+
   margin: 0 auto;
   margin-top: 20px;
   @media screen and (min-width: 1000px) {
