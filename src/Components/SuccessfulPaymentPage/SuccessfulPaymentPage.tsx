@@ -25,7 +25,6 @@ export const SuccessfulPaymentPage: React.FC = () => {
   const navigate = useNavigate();
   console.log(albumId);
   useEffect(() => {
-    console.log(albumId);
     setIsLoading(true);
     const fetchData = async () => {
       try {
