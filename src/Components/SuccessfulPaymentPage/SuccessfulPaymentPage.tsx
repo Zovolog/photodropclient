@@ -23,15 +23,14 @@ export const SuccessfulPaymentPage: React.FC = () => {
   const albumId = cookies["unlocked_album_id"];
   const selfie = cookies["selfie_link"];
   const navigate = useNavigate();
+  console.log(albumId);
   useEffect(() => {
-    const albumId = cookies["unlocked_album_id"];
     setIsLoading(true);
     const fetchData = async () => {
       try {
         const response = await axios.get(
           `https://ph-client.onrender.com/album/${albumId}`
         );
-        console.log(response.data);
         setIsLoading(false);
         getAlbum(response.data);
       } catch (error) {

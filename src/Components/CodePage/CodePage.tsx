@@ -48,7 +48,6 @@ export const CodePage: React.FC = () => {
         },
       })
         .then(function (response) {
-          console.log(response.data);
           setCookie("access_token", response.data.accessToken);
           setCookie("selfie_link", response.data.selfie.selfieThumbnail);
           setCookie("user_name", response.data.user.fullName);

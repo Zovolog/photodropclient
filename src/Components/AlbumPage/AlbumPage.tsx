@@ -67,7 +67,7 @@ export const AlbumPage: React.FC = () => {
         const response = await axios.get(
           `https://ph-client.onrender.com/album/${albumId}`
         );
-        console.log(response.data);
+
         setIsLoading(false);
         getAlbum(response.data);
         getLockedInfo(response.data.isUnlocked);
@@ -183,8 +183,8 @@ export const AlbumPage: React.FC = () => {
             </div>
             <PayBt
               onClick={(e) => {
-                sendPayment();
                 setCookie("unlocked_album_id", albumId);
+                sendPayment();
               }}
             >
               Checkout

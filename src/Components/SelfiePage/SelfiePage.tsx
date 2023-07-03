@@ -67,7 +67,7 @@ export const SelfiePage: React.FC = () => {
           },
         })
         .then(function (response) {
-          console.log(response);
+          
           setCookie("selfie_link", response.data.selfie.selfieThumbnail);
           navigate(`/main-page`);
         })
