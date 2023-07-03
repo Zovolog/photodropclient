@@ -184,7 +184,8 @@ export const AlbumPage: React.FC = () => {
             <PayBt
               onClick={(e) => {
                 setCookie("unlocked_album_id", albumId);
-                sendPayment();
+                navigate("/successful-payment");
+                // sendPayment();
               }}
             >
               Checkout

@@ -25,6 +25,7 @@ export const SuccessfulPaymentPage: React.FC = () => {
   const navigate = useNavigate();
   console.log(albumId);
   useEffect(() => {
+    console.log(albumId);
     setIsLoading(true);
     const fetchData = async () => {
       try {
@@ -77,7 +78,10 @@ export const SuccessfulPaymentPage: React.FC = () => {
             You can now download, share, post, and print your hi-res,
             watermark-free, glorious memories.
           </UsualText>
-          <MainImage alt="image" src={album?.cover} />
+          <Link to={`/album-page/${albumId}`}>
+            {" "}
+            <MainImage alt="image" src={album?.cover} />
+          </Link>
           <BtSeePhotos onClick={(e) => navigate(`/album-page/${albumId}`)}>
             See photos
           </BtSeePhotos>

@@ -23,12 +23,8 @@ export const Container = styled.div`
 `;
 export const MainImage = styled.img`
   border-radius: 15px;
-
   margin: 0 auto;
   margin-top: 20px;
-  @media screen and (min-width: 1000px) {
-    width: 100%;
-  }
 `;
 export const BigText = styled.p`
   font-family: Termina-Bold;
